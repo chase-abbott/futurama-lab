@@ -17,7 +17,11 @@ describe('demo routes', () => {
       tagline: await getQuotes('Bender')
     };
     const res = await request(app).post('/profile').send(profile);
-    expect(res.body).toEqual({ id: '1', name: 'Chase',
-      favoriteCharacter: 'Bender' });
+   
+    expect(res.body).toEqual({ id: '1',
+      name: 'Chase',
+      favoriteCharacter: 'Bender',
+      tagline: expect.any(String)
+    });
   });
 });
