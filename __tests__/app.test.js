@@ -54,4 +54,26 @@ describe('demo routes', () => {
 
     expect(getRes.body).toEqual(body);
   });
+
+  it('allows the user to update their favorite charcter', async () => {
+    const profile = {
+      name: 'Chase',
+      favoriteCharacter: 'Bender',
+      tagline: await getQuotes('Bender')
+    };
+
+    const { body } = await request(app).post('/profile').send(profile);
+
+    profile.favoriteCharacter = 'Leela';
+    profile.name = 'not Chase';
+
+    const patchRes = await request(app).patch(`/profile/${body.id}`).send(profile);
+
+    expect(patchRes.body).toEqual({ 
+      id: '1',
+      name: 'Chase',
+      favoriteCharacter: 'Leela',
+      tagline: expect.any(String)
+    });
+  });
 });

@@ -29,5 +29,14 @@ export const profileController = Router()
     catch(err){
       res.status(500).send(err);
     }
+  })
+  .patch('/profile/:id', async (req, res) => {
+    try{
+      const profile = await Profile.updateProfile(req.params.id, req.body);
+      res.send(profile);
+    }
+    catch(err){
+      res.status(500).send(err);
+    }
   });
 

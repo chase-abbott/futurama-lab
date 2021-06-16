@@ -1,4 +1,5 @@
 import pool from '../lib/utils/pool.js';
+import { getQuotes } from '../utils/futurama-api.js';
 
 export default class Profile {
   id;
@@ -32,6 +33,19 @@ export default class Profile {
     const { rows } = await pool.query(`
     SELECT * FROM profiles WHERE id = $1`
     , [id]);
+
+    return new Profile(rows[0]);
+  }
+
+  static async updateProfile (id, { favoriteCharacter }){
+    const newTagline = await getQuotes(favoriteCharacter);
+    
+    const { rows } = await pool.query(`
+    UPDATE profiles
+    SET favorite_character = $1, tagline = $2
+    WHERE id = $3
+    RETURNING *`
+    , [favoriteCharacter, newTagline, id]);
 
     return new Profile(rows[0]);
   }
