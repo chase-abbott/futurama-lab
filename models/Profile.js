@@ -20,4 +20,11 @@ export default class Profile {
   
     return new Profile(rows[0]);
   }
+
+  static async selectProfiles () {
+    const { rows } = await pool.query(`
+    SELECT * FROM profiles`);
+
+    return rows.map(profile => new Profile(profile));
+  }
 }
