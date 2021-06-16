@@ -76,4 +76,22 @@ describe('demo routes', () => {
       tagline: expect.any(String)
     });
   });
+
+  it('delete the profile from the database', async () => {
+    const profile = {
+      name: 'Chase',
+      favoriteCharacter: 'Bender',
+      tagline: await getQuotes('Bender')
+    };
+
+    const { body } = await request(app).post('/profile').send(profile);
+
+    const deleteRes = await request(app).delete(`/profile/${body.id}`);
+
+    expect(deleteRes.body).toEqual(body);
+
+    const getRes = await request(app).get('/profile');
+
+    expect(getRes.body).toEqual([]);
+  });
 });
