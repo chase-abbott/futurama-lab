@@ -20,5 +20,14 @@ export const profileController = Router()
     catch(err){
       res.status(500).send(err);
     }
+  })
+  .get('/profile/:id', async (req, res) => {
+    try{
+      const profile = await Profile.selectProfileById(req.params.id);
+      res.send(profile);
+    }
+    catch(err){
+      res.status(500).send(err);
+    }
   });
 

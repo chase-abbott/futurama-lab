@@ -27,4 +27,12 @@ export default class Profile {
 
     return rows.map(profile => new Profile(profile));
   }
+
+  static async selectProfileById (id) {
+    const { rows } = await pool.query(`
+    SELECT * FROM profiles WHERE id = $1`
+    , [id]);
+
+    return new Profile(rows[0]);
+  }
 }

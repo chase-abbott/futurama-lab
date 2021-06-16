@@ -40,4 +40,18 @@ describe('demo routes', () => {
 
     expect(getRes.body).toEqual([body]);
   });
+
+  it('gets a profile by its id', async () => {
+    const profile = {
+      name: 'Chase',
+      favoriteCharacter: 'Bender',
+      tagline: await getQuotes('Bender')
+    };
+
+    const { body } = await request(app).post('/profile').send(profile);
+
+    const getRes = await request(app).get(`/profile/${body.id}`);
+
+    expect(getRes.body).toEqual(body);
+  });
 });
